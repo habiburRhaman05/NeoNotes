@@ -1,34 +1,8 @@
-"use client"
-import { zodResolver } from '@hookform/resolvers/zod';
 
-import {  useForm } from 'react-hook-form';
-import z from 'zod';
-
-
-const signInSchema = z.object({
-    email:z.string().email('Invalid email'),
-    password:z.string("password is requried").min(6,'password min 6 char'),
-})
-
-type SignInValues = z.infer<typeof signInSchema>;
-
-
+import SignInForm from '@/components/auth/signInForm';
 
 export default function SignIn() {
 
-      const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm({
-    resolver:zodResolver(signInSchema)
-  })
-
-   const onSubmit = (data:SignInValues) => {
-    console.log('Form data submitted:', data);
-    // Now do whatever you want to do with the data
-  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 transition-colors duration-300">
@@ -47,30 +21,9 @@ export default function SignIn() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white dark:bg-zinc-900 py-8 px-4 shadow-xl border border-zinc-200 dark:border-zinc-800 sm:rounded-2xl sm:px-10">
           
+          <SignInForm/>
 
-      
-          <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Email address</label>
-              <input type="email" placeholder="name@company.com" className="mt-1 block w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-indigo-600 transition-all outline-none" {...register("email")} />
-              {
-                errors.email && <p className='text-red-800'>{errors.email.message}</p>
-              }
-            </div>
-            <div>
-              <div className="flex items-center justify-between">
-                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Password</label>
-                <a href="#" className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline">Forgot password?</a>
-              </div>
-              <input type="password" placeholder="••••••••" className="mt-1 block w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-indigo-600 transition-all outline-none" {...register("password")} />
-                {
-                errors.password && <p className='text-red-800'>{errors.password.message}</p>
-              }
-            </div>
-            <button type="submit" className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all active:scale-95">
-              Sign in
-            </button>
-          </form>
+    
     <div className="my-6 relative">
             <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-zinc-200 dark:border-zinc-800"></div></div>
             <div className="relative flex justify-center text-xs uppercase tracking-widest"><span className="px-2 bg-white dark:bg-zinc-900 text-zinc-500">Or continue with</span></div>
