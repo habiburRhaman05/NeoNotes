@@ -20,7 +20,7 @@ export default async function ProfilePage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 transition-colors duration-300">
       {/* Header / Cover Image */}
-      <div className="h-48 w-full bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-indigo-900 dark:to-purple-900" />
+      <div className="h-48 w-full  from-indigo-500 to-purple-600 dark:from-indigo-900 dark:to-purple-900" />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="-mt-16 sm:-mt-24 sm:flex sm:items-end sm:space-x-5">
