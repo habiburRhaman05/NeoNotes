@@ -1,5 +1,6 @@
 
 import SignInForm from '@/components/auth/signInForm';
+import Link from 'next/link';
 
 export default function SignIn() {
 
@@ -12,9 +13,9 @@ export default function SignIn() {
         </h2>
         <p className="mt-2 text-center text-sm text-zinc-600 dark:text-zinc-400">
           Don't have an account?{' '}
-          <a href="/sign-up" className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
+          <Link href="/sign-up" className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
             Create one for free
-          </a>
+          </Link>
         </p>
       </div>
 

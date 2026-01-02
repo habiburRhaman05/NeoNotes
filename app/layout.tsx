@@ -1,9 +1,12 @@
+import Header from "@/components/shared/Header"
+import { AppSidebar } from "@/components/shared/sidebar"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { Toaster } from "@/components/ui/sonner"
+import QueryProvider from "@/providers/QueryProvider"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
-import { Toaster } from "@/components/ui/sonner"
-import QueryProvider from "@/providers/QueryProvider"
-import Header from "@/components/shared/Header"
+import { ThemeProvider } from "@/components/shared/theme-provider"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,13 +31,35 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
-        <Header/>
-           <Toaster richColors />
-    <QueryProvider>
-          {children}
-        </QueryProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+      <QueryProvider>
+    <SidebarProvider>
+      <div className="flex flex-col min-h-screen w-full">
+        {/* ১. ফুল উইডথ হেডার */}
+        <Header />
+
+        {/* ২. হেডারের নিচের অংশ */}
+        <div className="flex flex-1">
+          {/* বামে সাইডবার */}
+          <AppSidebar />
+          
+          {/* ডানে মেইন কন্টেন্ট */}
+          <main className="flex-1 bg-[#fbfbfb] dark:bg-zinc-950 px-4 py-6">
+            {children}
+          
+          </main>
+        </div>
+      </div>
+    </SidebarProvider>
+      </QueryProvider>
+      </ThemeProvider>
       </body>
     </html>
   )

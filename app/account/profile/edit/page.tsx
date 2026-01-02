@@ -77,7 +77,7 @@ export default function EditProfilePage() {
             <p className="text-zinc-500 mt-1">Update your photo and personal details.</p>
           </div>
           <Link 
-            href="/profile" 
+            href="/account/profile" 
             className="text-sm font-semibold text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
           >
             Cancel

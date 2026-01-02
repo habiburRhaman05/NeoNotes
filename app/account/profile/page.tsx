@@ -31,7 +31,7 @@ export default async function ProfilePage() {
               <p className="text-zinc-500 dark:text-zinc-400">{user?.email}</p>
             </div>
             <div className="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-              <Link href="/profile/edit" className="inline-flex justify-center px-4 py-2 border border-zinc-300 dark:border-zinc-700 shadow-sm text-sm font-medium rounded-xl text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all">
+              <Link href="/account/profile/edit" className="inline-flex justify-center px-4 py-2 border border-zinc-300 dark:border-zinc-700 shadow-sm text-sm font-medium rounded-xl text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all">
                 Edit Profile
               </Link>
               <button className="inline-flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-xl shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-all">
