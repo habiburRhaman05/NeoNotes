@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import {  useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
+import SocialLoginProvider from './SocialLoginProvider';
 
 
 const signInSchema = z.object({
@@ -62,12 +63,12 @@ export default function SignInForm() {
 
 
 
-  
 
   return (
 
 
-      
+      <div>
+        
           <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Email address</label>
@@ -90,6 +91,14 @@ export default function SignInForm() {
              {signInMutation.isPending ? <Loader2 className='animate-spin'/> :  "Sign in"}
             </button>
           </form>
+              
+    <div className="my-6 relative">
+            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-zinc-200 dark:border-zinc-800"></div></div>
+            <div className="relative flex justify-center text-xs uppercase tracking-widest"><span className="px-2 bg-white dark:bg-zinc-900 text-zinc-500">Or continue with</span></div>
+          </div>
+<SocialLoginProvider/>
+       
+      </div>
 
   );
 }

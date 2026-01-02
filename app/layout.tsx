@@ -42,6 +42,8 @@ export default function RootLayout({
       <QueryProvider>
     <SidebarProvider>
       <div className="flex flex-col min-h-screen w-full">
+        
+        <Toaster richColors/>
         {/* ১. ফুল উইডথ হেডার */}
         <Header />
 
