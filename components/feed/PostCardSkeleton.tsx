@@ -7,7 +7,7 @@ export default function PostCardSkeleton({ index }: { index: number }) {
 
   return (
     <div className={cn(
-      "relative py-6 flex flex-col gap-3 px-4 rounded-2xl mb-2 animate-pulse",
+      "relative py-6 w-full flex flex-col gap-3 px-4 rounded-2xl mb-2 animate-pulse",
       isEven 
         ? "bg-[#fbfbfb] dark:bg-zinc-900/60 border border-transparent" 
         : "bg-white dark:bg-zinc-900/40 border border-zinc-100 dark:border-zinc-800/50 shadow-sm"

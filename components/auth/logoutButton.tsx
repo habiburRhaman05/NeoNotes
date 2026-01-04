@@ -13,6 +13,7 @@ const LogoutButton = () => {
       onClick={async()=>{
         setLoading(true)
         await authClient.signOut({
+          
   fetchOptions: {
     onSuccess: () => {
         toast.success("Logout Successfully")

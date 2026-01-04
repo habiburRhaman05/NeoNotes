@@ -1,12 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { LayoutDashboard, FileText, Bookmark, Search, Settings, Bell, PlusCircle, User, LogOut } from "lucide-react";
+import { LayoutDashboard, FileText, Bookmark, User2 } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -15,48 +14,55 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "../ui/button";
 
 export function AppSidebar() {
   const pathname = usePathname();
 
+  const menuItems = [
+    { name: "Feed", icon: LayoutDashboard, href: "/feed" },
+    { name: "Profile", icon: User2, href: "/account/profile" },
+    { name: "My Posts", icon: FileText, href: "/my-posts" },
+    { name: "Saved", icon: Bookmark, href: "/me/saved" },
+  ];
+
   return (
     <Sidebar collapsible="offcanvas" className="top-16 lg:block hidden h-[calc(100vh-64px)] border-r border-zinc-200 dark:border-zinc-800">
-      <SidebarContent className="bg-[#fbfbfb] dark:bg-zinc-950 ">
-        
-     
-
+      <SidebarContent className="bg-[#fbfbfb] dark:bg-zinc-950">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[10px] font-black uppercase text-zinc-400 dark:text-zinc-500">Menu</SidebarGroupLabel>
-          <SidebarMenu>
-            {[
-              { name: "Feed", icon: LayoutDashboard, href: "/feed" },
-              { name: "My Posts", icon: FileText, href: "/my-posts" },
-              { name: "Saved", icon: Bookmark, href: "/saved" },
-            ].map((item) => (
-              <SidebarMenuItem key={item.name}>
-                <SidebarMenuButton asChild isActive={pathname === item.href} className="rounded-md p3-5">
-                  <Link href={item.href}>
-                    <item.icon className="w-5 h-5" />
-                    <span className="">{item.name}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+          <SidebarGroupLabel className="text-[10px] font-black uppercase text-zinc-400 dark:text-zinc-500 px-4 mb-2">
+            Menu
+          </SidebarGroupLabel>
+          <SidebarMenu className="px-2">
+            {menuItems.map((item) => {
+              const isActive = pathname === item.href;
+              
+              return (
+                <SidebarMenuItem key={item.name}>
+                  <SidebarMenuButton 
+                    asChild 
+                    isActive={isActive} 
+                    className={`
+                      transition-all duration-200 flex items-center gap-3 px-3 py-2 rounded-lg
+                      ${isActive 
+                        ? "bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 shadow-sm font-medium" 
+                        : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-900/50"
+                      }
+                    `}
+                  >
+                    <Link href={item.href}>
+                      <item.icon className={`w-5 h-5 transition-colors ${isActive ? "text-blue-600 dark:text-blue-400" : "text-zinc-400"}`} />
+                      <span>{item.name}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter className="bg-[#fbfbfb] dark:bg-zinc-950 p-4 border-t border-zinc-100 dark:border-zinc-800">
-        <div className="flex items-center gap-3 rounded-2xl bg-zinc-100 dark:bg-zinc-900 p-2">
-          <div className="h-8 w-8 rounded-full bg-zinc-300 dark:bg-zinc-800 overflow-hidden shrink-0">
-             <User className="h-full w-full p-1 text-zinc-500" />
-          </div>
-          <div className="flex-1 overflow-hidden group-data-[collapsible=icon]:hidden">
-            <p className="truncate text-xs font-bold dark:text-zinc-100">John Doe</p>
-          </div>
-          <LogOut className="h-4 w-4 text-zinc-400 shrink-0 group-data-[collapsible=icon]:hidden" />
-        </div>
+        <div className="text-xs text-zinc-400">Sidebar Footer</div>
       </SidebarFooter>
     </Sidebar>
   );

@@ -41,24 +41,14 @@ export default function RootLayout({
         >
       <QueryProvider>
     <SidebarProvider>
-      <div className="flex flex-col min-h-screen w-full">
-        
+      
         <Toaster richColors/>
-        {/* ১. ফুল উইডথ হেডার */}
-        <Header />
-
-        {/* ২. হেডারের নিচের অংশ */}
-        <div className="flex flex-1">
-          {/* বামে সাইডবার */}
-          <AppSidebar />
+      
           
-          {/* ডানে মেইন কন্টেন্ট */}
-          <main className="flex-1 bg-[#fbfbfb] dark:bg-zinc-950 px-4 py-6">
+          <main className="w-full">
             {children}
-          
           </main>
-        </div>
-      </div>
+     
     </SidebarProvider>
       </QueryProvider>
       </ThemeProvider>

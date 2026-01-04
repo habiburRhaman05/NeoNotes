@@ -1,7 +1,13 @@
+import { feedServices } from "@/services/feed/feedServices";
 import EmptyState from "./EmptyState";
 import PostCard from "./PostCard";
 
-export default async function PostList({posts}) {
+export default async function PostList() {
+
+  
+  const posts = await feedServices.getAllFeed();
+console.log(posts);
+
   // আপনার API বা Database কল এখানে করুন
 //   const posts = await prisma.post.findMany({ ... });
 // const posts = []
@@ -9,9 +15,10 @@ export default async function PostList({posts}) {
 
   return (
     <div className="flex flex-col">
-      {posts.map((post, index) => (
+      {posts.data}
+      {/* {posts.map((post, index) => (
         <PostCard key={post.id} post={post} index={index} />
-      ))}
+      ))} */}
     </div>
   );
 }

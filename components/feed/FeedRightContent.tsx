@@ -14,7 +14,7 @@ const SUGGESTED_AUTHORS = [
 
 export default function FeedRightSidebar() {
   return (
-    <aside className="w-[350px] xl:block hidden h-fit sticky top-24 space-y-12 pl-12">
+    <aside className="w-[350px]  mt-8 xl:block hidden h-fit sticky top-24 space-y-12 pl-12">
       
       {/* ১. Staff Picks Section */}
       <section className="space-y-4">

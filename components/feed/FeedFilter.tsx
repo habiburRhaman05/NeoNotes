@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import { 
   SlidersHorizontal, 
   ChevronDown, 
@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { refreshData } from "@/server-actions/feed";
+
 
 const TAGS = ["NextJS", "React", "TypeScript", "Design", "AI", "Database"];
 const SORT_OPTIONS = [
@@ -29,7 +31,7 @@ export default function FeedFilter() {
   const [open, setOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState("latest");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
+const [isPending, startTransition] = useTransition();
   // ফিল্টার সক্রিয় আছে কি না তা চেক করার জন্য
   const hasActiveFilters = selectedTags.length > 0 || selectedSort !== "latest";
 
@@ -42,6 +44,9 @@ export default function FeedFilter() {
   const handleApply = () => {
     console.log("Applying filters:", { selectedSort, selectedTags });
     setOpen(false);
+  startTransition(async () => {
+      await refreshData("/feed"); // আপনার যে পেজটি রিফ্রেশ করা দরকার
+    });
   };
 
   return (
@@ -140,6 +145,7 @@ export default function FeedFilter() {
             <div className="pt-2 flex gap-2">
               <Button 
                 onClick={handleApply}
+                disabled={isPending}
                 className="flex-1 bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 rounded-xl h-10 text-[11px] font-bold"
               >
                 Apply
