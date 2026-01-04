@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // index প্রপসটি যোগ করা হয়েছে যা দিয়ে আমরা জোড়/বিজোড় চেক করবো
 export default function PostCard({ post, index }: { post: any, index: number }) {
@@ -33,19 +34,19 @@ export default function PostCard({ post, index }: { post: any, index: number }) 
         <div className="flex items-center gap-2 mb-0.5">
           <div className="h-5 w-5 rounded-full overflow-hidden shrink-0 ring-1 ring-zinc-200 dark:ring-zinc-700">
             <img 
-              src={post.author.image || "https://github.com/shadcn.png"} 
-              alt={post.author.name} 
+              src={post.author?.image || "https://github.com/shadcn.png"} 
+              alt={post.author?.name} 
               className="h-full w-full object-cover" 
             />
           </div>
           <div className="flex items-center gap-1.5">
             <span className="text-[12px] font-semibold text-zinc-800 dark:text-zinc-200">
-              {post.author.name}
+              {post.author?.name}
             </span>
             <span className="text-blue-500 text-[8px]">●</span>
             <span className="text-[11px] text-zinc-400 dark:text-zinc-500 flex items-center gap-1">
               <Clock className="w-3 h-3" />
-              {formatDistanceToNow(new Date(post.createdAt))} ago
+              {formatDistanceToNow(new Date(post?.createdAt))} ago
             </span>
           </div>
         </div>
@@ -57,10 +58,11 @@ export default function PostCard({ post, index }: { post: any, index: number }) 
       </div>
 
       {/* ২. মেইন কন্টেন্ট এরিয়া */}
+    <Link href={`/feed/${post.id}`}>
       <div className="flex justify-between gap-5 md:gap-8">
         <div className="flex-1 space-y-1.5">
           <h2 className="text-[17px] md:text-[20px] font-black text-zinc-900 dark:text-zinc-100 leading-snug tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
-            {post.title}
+            {post?.title}
           </h2>
           <p className="text-zinc-500 dark:text-zinc-400 text-[13px] md:text-[14px] line-clamp-2 leading-relaxed font-normal italic">
             {post.content}
@@ -76,7 +78,7 @@ export default function PostCard({ post, index }: { post: any, index: number }) 
             />
           </div>
         )}
-      </div>
+      </div></Link>
 
       {/* ৩. স্ট্যাটস এবং ইন্টারেকশন */}
       <div className="flex items-center justify-between mt-2 pt-2 border-t border-zinc-100/50 dark:border-zinc-800/30">
@@ -88,7 +90,7 @@ export default function PostCard({ post, index }: { post: any, index: number }) 
 
           <button className="flex items-center gap-1.5 text-zinc-400 hover:text-indigo-500 transition-all duration-200">
             <MessageCircle className="w-4 h-4" />
-            <span className="text-[12px] font-bold">{post.comment.length || 132}</span>
+            <span className="text-[12px] font-bold">{post.comment?.length || 132}</span>
           </button>
         </div>
 

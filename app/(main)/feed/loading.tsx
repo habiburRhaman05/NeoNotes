@@ -1,6 +1,12 @@
+import PostCardSkeleton from "@/components/feed/PostCardSkeleton"
+
 export default function loading(){
     return <div>
-        Loading
+       {
+         new Array(5).fill("").map((_,index)=>{
+           return <PostCardSkeleton index={index} key={index}/>
+         })
+       }
         </div>
     
 }

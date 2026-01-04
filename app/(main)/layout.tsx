@@ -25,7 +25,7 @@ export default function RootLayout({
           <div className="flex-1 bg-[#fbfbfb] dark:bg-zinc-950 px-4 py-6">
             {children}
           </div>
-                <FeedRightSidebar/>
+               
        
       </div>
        </main>

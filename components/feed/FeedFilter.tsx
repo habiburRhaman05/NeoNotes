@@ -45,7 +45,7 @@ const [isPending, startTransition] = useTransition();
     console.log("Applying filters:", { selectedSort, selectedTags });
     setOpen(false);
   startTransition(async () => {
-      await refreshData("/feed"); // আপনার যে পেজটি রিফ্রেশ করা দরকার
+      await refreshData("blog"); // আপনার যে পেজটি রিফ্রেশ করা দরকার
     });
   };
 

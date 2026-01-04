@@ -1,32 +1,19 @@
-import React, { Suspense } from "react";
-import PostCard from "@/components/feed/PostCard";
-import FeedFilter from "@/components/feed/FeedFilter";
-import PostCardSkeleton from "@/components/feed/PostCardSkeleton";
-import PostList from "@/components/feed/PostList";
-import FeedRightSidebar from "@/components/feed/FeedRightContent";
+import FeedFilter from '@/components/feed/FeedFilter'
+import FeedRightSidebar from '@/components/feed/FeedRightContent'
+import React, { ReactNode } from 'react'
 
-
-
-export default async function FeedPage({children}) {
-  
+const FeedLayout = ({children}:{children:ReactNode}) => {
   return (
-    <div className="space-y-8  w-full ">
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        
-        <FeedFilter />
+  <div>
+        {/* <FeedFilter/> */}
+   <div className='flex '>
+          <div className="flex-1">
+            {children}
+          </div>
+           <FeedRightSidebar/>
+   </div>
       </div>
-<div className="flex items-start">
-      {/* Feed Grid */}
-      <div className="grid grid-cols-1 min-w-full  gap-6">
-
-     {children}
-      </div>
-
-
-
-
-      </div>
-    </div>
-  );
+  )
 }
+
+export default FeedLayout
