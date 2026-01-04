@@ -12,6 +12,7 @@ import ToggleTheme from "./toggleTheme";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import SearchBar from "./SearchBar";
+import Link from "next/link";
 
 export default  function Header() {
 
@@ -30,6 +31,7 @@ export default  function Header() {
         <SidebarTrigger className="text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900" ></SidebarTrigger>
         
         <div className="flex items-center gap-2">
+ <Link href={"/feed"}>
        <div className="flex items-center gap-2 group cursor-pointer select-none">
   <div className="relative flex items-center justify-center w-9 h-9 bg-zinc-900 dark:bg-zinc-100 rounded-xl transition-all duration-500 group-hover:rotate-[10deg] group-hover:shadow-lg group-hover:shadow-indigo-500/20">
     <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse"></span>
@@ -47,6 +49,7 @@ export default  function Header() {
     </span>
   </div>
 </div>
+ </Link>
         </div>
       </div>
 

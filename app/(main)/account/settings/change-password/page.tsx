@@ -42,7 +42,7 @@ export default function ChangePasswordPage() {
 
   return (
     <div className="flex  items-center justify-center bg-gray-50 px-4 py-12 dark:bg-zinc-950">
-      <div className="w-full max-w-md space-y-8 rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="w-full max-w-lg space-y-8 rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
         
         {/* Header */}
         <div className="text-center">
