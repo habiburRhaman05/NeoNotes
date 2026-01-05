@@ -1,4 +1,4 @@
-"use client";
+
 
 import React from "react";
 import { motion } from "framer-motion";
@@ -18,8 +18,7 @@ export default function LandingPage() {
           </Link>
           
           <div className="hidden md:flex items-center gap-8 text-sm font-medium tracking-tight">
-            <Link href="#" className="hover:text-indigo-600 transition-colors">Our story</Link>
-            <Link href="#" className="hover:text-indigo-600 transition-colors">Membership</Link>
+            
             <Link href="/sign-in" className="hover:text-indigo-600 transition-colors">Write</Link>
             <Link href="/sign-in" className="hover:text-indigo-600 transition-colors">Sign in</Link>
             <Link href="/feed">
@@ -96,38 +95,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ৩. ট্রেন্ডিং সেকশন (Clean List) */}
-      <section className="py-20 max-w-7xl mx-auto px-6">
-        <div className="flex items-center gap-3 mb-10">
-            <div className="p-1 rounded-full border border-black dark:border-white">
-                <Sparkles className="w-3 h-3" />
-            </div>
-            <h2 className="text-xs font-black uppercase tracking-[0.2em]">Trending on Synapse</h2>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-16">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="flex gap-6 group cursor-pointer">
-               <span className="text-3xl font-serif font-bold text-black/10 dark:text-white/10 group-hover:text-indigo-600 transition-colors">0{i}</span>
-               <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-zinc-200 dark:bg-zinc-800" />
-                    <span className="text-[13px] font-bold">Author Name</span>
-                  </div>
-                  <h3 className="text-lg font-black leading-tight tracking-tight group-hover:underline decoration-1 underline-offset-4">
-                    The Silent Revolution of Minimalist Design in 2026.
-                  </h3>
-                  <div className="flex items-center gap-2 text-xs text-zinc-500 font-medium">
-                    <span>Jan 5</span>
-                    <span>•</span>
-                    <span>8 min read</span>
-                  </div>
-               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
+   
       {/* ৪. মিনিমাল ফুটার */}
       <footer className="py-10 border-t border-black/5 dark:border-white/10">
         <div className="max-w-7xl mx-auto px-6 flex flex-wrap gap-6 text-[13px] font-medium text-zinc-500">
