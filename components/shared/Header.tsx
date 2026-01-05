@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Bell, Search, AlertCircle, Loader2 } from "lucide-react";
+import { Bell, Search, AlertCircle, Loader2, Command } from "lucide-react";
 import ProfileAvater from "../auth/ProfileAvater";
 import ToggleTheme from "./toggleTheme";
 import { authClient } from "@/lib/auth-client";
@@ -25,19 +25,9 @@ export default function Header() {
         <SidebarTrigger className="text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors rounded-xl" />
         
         <Link href="/feed">
-          <div className="flex items-center gap-2 group cursor-pointer select-none">
-            <div className="relative flex items-center justify-center w-9 h-9 bg-zinc-900 dark:bg-zinc-100 rounded-xl transition-all duration-500 group-hover:rotate-[10deg] group-hover:shadow-lg group-hover:shadow-indigo-500/20">
-              <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse"></span>
-              <span className="text-white dark:text-zinc-900 font-black text-xl tracking-tighter">S</span>
-            </div>
-            <div className="flex flex-col -space-y-1 hidden sm:flex">
-              <span className="text-xl font-black tracking-tighter text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                Synapse
-              </span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-zinc-400 dark:text-zinc-500">
-                Intellect
-              </span>
-            </div>
+        <div className="flex items-center gap-2 group">
+            <Command className="w-6 h-6 text-indigo-600 group-hover:rotate-180 transition-transform duration-500" />
+            <span className="text-xl font-black tracking-tighter">Synapse</span>
           </div>
         </Link>
       </div>

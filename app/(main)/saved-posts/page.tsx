@@ -38,7 +38,7 @@ const SAVED_POSTS = [
 
 export default function SavedPostsPage() {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 min-h-screen">
+    <div className="max-w-7xl mx-auto px-6 py-12 min-h-screen">
       
       {/* ১. হেডার সেকশন */}
       <header className="mb-12 space-y-6">
