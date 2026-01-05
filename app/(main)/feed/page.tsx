@@ -12,10 +12,11 @@ const page =async () => {
   return (
  
     <div>
+     
       <div>
         <h1 className='my-2 font-bold text-lg'>For You</h1>
       </div>
-     <PostList posts={posts?.data && posts?.data} />
+     <PostList posts={posts?.data?.data && posts?.data.data} />
     </div>
   
   )

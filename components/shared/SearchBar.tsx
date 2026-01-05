@@ -18,7 +18,7 @@ const SearchBar = () => {
                 // alert()
           if(e.key === "Enter"){
            
-         router.push(`/search?${e.currentTarget.value}`)
+         router.push(`/search?q=${e.currentTarget.value}`)
           }
             }}
             placeholder="Search posts, tags, or authors..."

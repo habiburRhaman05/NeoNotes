@@ -29,28 +29,29 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-     <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body
-      
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
         <ThemeProvider
           attribute="class"
-    
-          defaultTheme="system" 
+          defaultTheme="system"
           enableSystem
-    
-          disableTransitionOnChange={false} 
+          disableTransitionOnChange
         >
-          <QueryProvider>
-            <SidebarProvider>
-              <Toaster richColors />
-              <main className="w-full">
-                {children}
-              </main>
-            </SidebarProvider>
-          </QueryProvider>
-        </ThemeProvider>
+      <QueryProvider>
+    <SidebarProvider>
+      
+        <Toaster richColors/>
+      
+          
+          <main className="w-full">
+            {children}
+          </main>
+     
+    </SidebarProvider>
+      </QueryProvider>
+      </ThemeProvider>
       </body>
     </html>
   )

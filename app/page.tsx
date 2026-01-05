@@ -1,4 +1,4 @@
-
+"use client"
 
 import React from "react";
 import { motion } from "framer-motion";
@@ -31,7 +31,7 @@ export default function LandingPage() {
       </nav>
 
       {/* ২. হিরো সেকশন (The Masterpiece) */}
-      <section className="relative pt-32 pb-20 border-b border-black/5 dark:border-white/10 overflow-hidden">
+      <section className="relative pt-32 pb-20   overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center">
           
           {/* টেক্সট কন্টেন্ট */}
@@ -96,17 +96,8 @@ export default function LandingPage() {
       </section>
 
    
-      {/* ৪. মিনিমাল ফুটার */}
-      <footer className="py-10 border-t border-black/5 dark:border-white/10">
-        <div className="max-w-7xl mx-auto px-6 flex flex-wrap gap-6 text-[13px] font-medium text-zinc-500">
-           <Link href="#" className="hover:text-black dark:hover:text-white">Help</Link>
-           <Link href="#" className="hover:text-black dark:hover:text-white">Status</Link>
-           <Link href="#" className="hover:text-black dark:hover:text-white">About</Link>
-           <Link href="#" className="hover:text-black dark:hover:text-white">Careers</Link>
-           <Link href="#" className="hover:text-black dark:hover:text-white">Privacy</Link>
-           <Link href="#" className="hover:text-black dark:hover:text-white">Terms</Link>
-        </div>
-      </footer>
+
+
     </div>
   );
 }
