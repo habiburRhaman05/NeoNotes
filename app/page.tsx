@@ -60,7 +60,7 @@ export default function LandingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <Link href="/feed">
+              <Link href="/feed" >
                 <Button className="h-14 px-12 bg-[#191919] dark:bg-[#EAEAEA] text-white dark:text-black rounded-full text-xl font-bold hover:scale-[1.02] transition-transform">
                   Start reading
                 </Button>

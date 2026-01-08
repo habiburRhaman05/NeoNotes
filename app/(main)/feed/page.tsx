@@ -1,22 +1,34 @@
-import React, { Suspense } from 'react'
-import { feedServices } from "@/services/feed/feedServices";
-import FeedFilter from '@/components/feed/FeedFilter';
-import FeedRightSidebar from '@/components/feed/FeedRightContent';
-import PostList from '@/components/feed/PostList';
-import PostCardSkeleton from '@/components/feed/PostCardSkeleton';
+import LinkTab from "@/components/feed/LinkTab";
+import PostList from "@/components/feed/PostList";
+import Link from "next/link";
+
+
+export const revalidate = 30 // seconds (ISR)
+
+async function getBlogs() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/post`, {
+    next: { revalidate: 30 },
+  })
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch blogs")
+  }
+
+  return res.json()
+}
+
 
 const page =async () => {
-      const posts = await feedServices.getAllFeed();
-
+  
+  const posts = await getBlogs();
     
   return (
  
     <div>
      
-      <div>
-        <h1 className='my-2 font-bold text-lg'>For You</h1>
-      </div>
-     <PostList posts={posts?.data?.data && posts?.data.data} />
+     <LinkTab/>
+
+     <PostList posts={posts?.data && posts?.data} />
     </div>
   
   )

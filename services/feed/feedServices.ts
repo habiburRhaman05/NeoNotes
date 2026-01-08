@@ -44,10 +44,8 @@ const getSearchResult = async (query:string):Promise<Feed [] | any> =>{
 
 const getFeedDetailsById = async (id:number):Promise<Feed | any> =>{
   try {
-     const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/post/all/${id}`,{
-      next:{
-        tags:["blog"]
-      }
+     const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/post/${id}`,{
+     
      })
    
      const data = await result.json();

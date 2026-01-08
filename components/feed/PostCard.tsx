@@ -72,7 +72,7 @@ export default function PostCard({ post, index }: { post: any, index: number }) 
         {post.thumbnail && (
           <div className="w-20 h-20 md:w-32 md:h-24 relative shrink-0 rounded-xl overflow-hidden border border-zinc-100 dark:border-zinc-800 shadow-sm group-hover:shadow-md transition-shadow">
             <img 
-              src={post.thumbnail} 
+              src={"https://images.pexels.com/photos/1557652/pexels-photo-1557652.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"} 
               alt={post.title} 
               className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
             />

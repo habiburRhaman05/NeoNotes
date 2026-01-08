@@ -1,184 +1,189 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Link from 'next/link';
-import { Loader2, Check, Globe, User, AtSign } from 'lucide-react'; // For professional icons
+import { Loader2, Check, Globe, User, AtSign, Phone, Camera, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
+import { authClient } from '@/lib/auth-client';
+import { getSession } from 'better-auth/api';
 
-
-// 1. Validation Schema
+// ১. ভ্যালিডেশন স্কিমা (Phone সহ)
 const profileSchema = z.object({
   name: z.string().min(2, 'Name is too short'),
   username: z.string().min(3, 'Username must be at least 3 characters'),
   bio: z.string().max(160, 'Bio must be under 160 characters'),
   website: z.string().url('Invalid URL').optional().or(z.literal('')),
+  phone: z.string().min(10, 'Invalid phone number').max(15, 'Too long'),
 });
 
 type ProfileValues = z.infer<typeof profileSchema>;
 
 export default function EditProfilePage() {
- 
+  const [imagePreview, setImagePreview] = useState("https://api.dicebear.com/7.x/avataaars/svg?seed=Felix");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const {user} = authClient.useSession()
 
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors, isSubmitting },
+    
   } = useForm<ProfileValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       name: "John Doe",
-      username: "johndoe",
-      bio: "Product Designer based in New York.",
-      website: "https://johndoe.com",
+      phone: "+8801700000000"
     }
   });
 
-  // Dummy Update Action
+  // ইমেজ হ্যান্ডলার
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const onSubmit = async (data: ProfileValues) => {
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+   
+      await authClient.updateUser({
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9SRRmhH4X5N2e4QalcoxVbzYsD44C-sQv-w&s",
+    name: data.name,
+    fetchOptions:{
+      onSuccess(data) {
+         toast.success("Profile Synced", {
+        description: "Your information was updated across Synapse network.",
+      });
+      },
+    }
+   
+})
       
-      console.log("Updated Data:", data);
-
-      // Trigger shadcn success toast
-    
-      toast("Profile updated", {
-     description: "Your changes have been saved successfully.",
-          action: {
-            label: "Undo",
-            onClick: () => console.log("Undo"),
-          },
-        })
-
+     
     } catch (error) {
-    //   toast({
-    //     variant: "destructive",
-    //     title: "Error",
-    //     description: "Failed to update profile. Please try again.",
-    //   });
+      toast.error("Sync Failed", { description: "Connection to auth server lost." });
     }
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-zinc-950 transition-colors duration-300">
-      {/* Ensure Toaster is in layout.tsx or here */}
-  
+    <div className="  bg-[#fafafa] dark:bg-[#050505] text-zinc-900 dark:text-zinc-50 transition-colors duration-500 pb-5">
       
-      <div className="max-w-3xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        
-        {/* Header Navigation */}
-        <div className="flex items-center justify-between mb-10">
-          <div>
-            <h1 className="text-3xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">Settings</h1>
-            <p className="text-zinc-500 mt-1">Update your photo and personal details.</p>
-          </div>
-          <Link 
-            href="/account/profile" 
-            className="text-sm font-semibold text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+     
+   
+
+      <div className="max-w-4xl relative mx-auto px-6">
+           <AnimatePresence>
+        {isSubmitting && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="absolute inset-0 z-[100] flex flex-col items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-xl "
           >
-            Cancel
-          </Link>
+            <div className="relative">
+                <Loader2 className="h-16 w-16 text-indigo-600 animate-spin" />
+                <motion.div 
+                    initial={{ scale: 0.8 }} animate={{ scale: 1.2 }} transition={{ repeat: Infinity, duration: 1, repeatType: 'reverse' }}
+                    className="absolute inset-0 bg-indigo-500/20 blur-2xl rounded-full" 
+                />
+            </div>
+            <p className="mt-6 text-lg font-black tracking-tighter italic animate-pulse">Syncing with Synapse...</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+        {/* হেডার */}
+        <div className="flex flex-col gap-4 mb-12">
+            <Link href="/account" className="flex items-center gap-2 text-zinc-500 hover:text-indigo-600 transition-colors text-sm font-bold group">
+               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Account
+            </Link>
+            <div className="flex items-end justify-between">
+                <div>
+                    <h1 className="text-5xl font-[1000] tracking-tighter">Edit Profile</h1>
+                    <div className="flex items-center gap-2 mt-2 text-emerald-500">
+                        <ShieldCheck className="w-4 h-4" />
+                        <span className="text-[10px] font-black uppercase tracking-widest">Verified Synapse Identity</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
           
-          {/* Avatar Section */}
-          <section className="flex flex-col sm:flex-row sm:items-center gap-8 pb-10 border-b border-zinc-100 dark:border-zinc-800/50">
-            <div className="relative h-24 w-24">
-              <img 
-                src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" 
-                alt="Avatar" 
-                className="h-24 w-24 rounded-full object-cover ring-4 ring-zinc-50 dark:ring-zinc-900 shadow-sm"
-              />
-              <div className="absolute bottom-0 right-0 p-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-full shadow-sm">
-                 <Check className="h-3 w-3 text-indigo-600" />
+          {/* ৩. প্রোফাইল পিকচার সেকশন উইথ প্রিভিউ */}
+          <section className="p-8 rounded-[2.5rem] bg-white dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm flex flex-col items-center sm:flex-row gap-8">
+            <div className="relative group">
+              <div className="h-32 w-32 rounded-[2.5rem] overflow-hidden ring-4 ring-indigo-500/10 transition-transform group-hover:scale-105">
+                <img src={imagePreview} alt="Preview" className="h-full w-full object-cover" />
               </div>
+              <button 
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="absolute -bottom-2 -right-2 p-3 bg-indigo-600 text-white rounded-2xl shadow-xl hover:bg-indigo-700 transition-all active:scale-90"
+              >
+                <Camera className="h-5 w-5" />
+              </button>
+              <input type="file" ref={fileInputRef} onChange={handleImageChange} className="hidden" accept="image/*" />
             </div>
-            <div className="space-y-3">
-              <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Your profile picture</h4>
-              <div className="flex gap-3">
-                <button type="button" className="px-4 py-2 text-xs font-bold bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-lg hover:opacity-90 transition-opacity">
-                  Upload new
-                </button>
-                <button type="button" className="px-4 py-2 text-xs font-bold text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors">
-                  Remove
-                </button>
-              </div>
+            
+            <div className="text-center sm:text-left space-y-2">
+              <h3 className="text-xl font-bold tracking-tight">Profile Photo</h3>
+              <p className="text-sm text-zinc-500 max-w-[200px]">We recommend an image of at least 400x400px.</p>
             </div>
           </section>
 
-          {/* Form Fields */}
-          <section className="space-y-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
-                  <User className="h-4 w-4 opacity-50" /> Display Name
-                </label>
-                <input 
-                  {...register("name")}
-                  className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-indigo-500 transition-all outline-none shadow-sm"
-                />
-                {errors.name && <p className="text-xs font-medium text-red-500 mt-1">{errors.name.message}</p>}
+          {/* ৪. ডিটেইলস গ্রিড */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="text-[11px] font-black uppercase tracking-widest text-zinc-400 ml-2">Display Name</label>
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                <input {...register("name")} className="w-full pl-12 pr-4 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none font-bold" />
               </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
-                  <AtSign className="h-4 w-4 opacity-50" /> Username
-                </label>
-                <input 
-                  {...register("username")}
-                  className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-indigo-500 transition-all outline-none shadow-sm"
-                />
-                {errors.username && <p className="text-xs font-medium text-red-500 mt-1">{errors.username.message}</p>}
-              </div>
+              {errors.name && <p className="text-[10px] text-red-500 font-bold uppercase ml-2">{errors.name.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-bold text-zinc-700 dark:text-zinc-300">Bio</label>
-              <textarea 
-                rows={4}
-                {...register("bio")}
-                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-indigo-500 transition-all outline-none resize-none shadow-sm"
-                placeholder="Write a few sentences about yourself..."
-              />
-              <div className="flex justify-between items-center text-[10px] uppercase font-bold tracking-widest text-zinc-400">
-                 {errors.bio ? <span className="text-red-500">{errors.bio.message}</span> : <span />}
-                 <span>{160} Characters Max</span>
+              <label className="text-[11px] font-black uppercase tracking-widest text-zinc-400 ml-2">Phone Number</label>
+              <div className="relative">
+                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                <input {...register("phone")} placeholder="+1 (555) 000-0000" className="w-full pl-12 pr-4 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none font-bold" />
               </div>
+              {errors.phone && <p className="text-[10px] text-red-500 font-bold uppercase ml-2">{errors.phone.message}</p>}
             </div>
+          </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
-                <Globe className="h-4 w-4 opacity-50" /> Website
-              </label>
-              <input 
-                {...register("website")}
-                placeholder="https://yourwebsite.com"
-                className="w-full px-4 py-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-indigo-500 transition-all outline-none shadow-sm"
-              />
-              {errors.website && <p className="text-xs font-medium text-red-500 mt-1">{errors.website.message}</p>}
+          <div className="space-y-2">
+            <label className="text-[11px] font-black uppercase tracking-widest text-zinc-400 ml-2">Website</label>
+            <div className="relative">
+              <Globe className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+              <input {...register("website")} className="w-full pl-12 pr-4 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none font-bold" />
             </div>
-          </section>
+          </div>
 
-          {/* Action Buttons */}
-          <div className="pt-10 flex items-center justify-end gap-4 border-t border-zinc-100 dark:border-zinc-800/50">
+          <div className="space-y-2">
+            <label className="text-[11px] font-black uppercase tracking-widest text-zinc-400 ml-2">Bio</label>
+            <textarea 
+                {...register("bio")} rows={4} 
+                className="w-full p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-[2rem] focus:ring-2 focus:ring-indigo-500 outline-none font-medium resize-none" 
+            />
+          </div>
+
+          {/* সেভ বাটন */}
+          <div className="flex justify-end pt-6">
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="relative flex items-center justify-center gap-2 min-w-[140px] px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md hover:shadow-indigo-500/20 transition-all active:scale-95 disabled:opacity-70"
+              className="group h-12 px-6 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-full text-lg font-[1000] hover:scale-105 transition-all active:scale-95 shadow-xl disabled:opacity-50"
             >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                "Save Changes"
-              )}
+              Update Synapse Profile
             </button>
           </div>
         </form>
