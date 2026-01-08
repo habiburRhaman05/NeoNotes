@@ -79,7 +79,7 @@ export default function EditProfilePage() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] dark:bg-[#050505] text-zinc-900 dark:text-zinc-50 transition-colors duration-500 pb-10">
-      <div className="max-w-4xl relative mx-auto px-6 pt-20">
+      <div className="max-w-4xl relative mx-auto px-6">
         
         {/* লোডিং এনিমেশন */}
         <AnimatePresence>
