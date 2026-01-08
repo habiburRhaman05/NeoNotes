@@ -40,22 +40,16 @@ export default function Header() {
       {/* Right Side Actions */}
       <div className="flex items-center gap-1.5 sm:gap-3">
         
-        {/* Error State Indicator (Pro Look) */}
-        {error && (
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 rounded-full animate-in fade-in slide-in-from-right-2">
-            <AlertCircle className="w-3.5 h-3.5 text-red-500" />
-            <span className="text-[10px] font-black uppercase text-red-600 dark:text-red-400 tracking-tight">Sync Error</span>
-          </div>
-        )}
+      
 
-        <div className="flex items-center border-x border-zinc-100 dark:border-zinc-800 px-2 sm:px-4 gap-1 sm:gap-2">
+        <div className="flex items-center  px-2 sm:px-4 gap-1 sm:gap-2">
           <Button variant="ghost" size="icon" className="md:hidden text-zinc-600 dark:text-zinc-400 rounded-xl">
             <Search className="h-5 w-5" />
           </Button>
 
           <ToggleTheme />
 
-          <Button variant="ghost" size="icon" className="relative text-zinc-600 dark:text-zinc-400 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900">
+          <Button variant="ghost" size="icon" className="relative text-zinc-600 dark:text-zinc-400 rounded-xl hover:bg-zinc-200 bg-zinc-100 dark:hover:bg-zinc-800 dark:bg-zinc-900">
             <Bell className="h-5 w-5" />
             {!isPending && !error && (
               <span className="absolute top-2.5 right-2.5 flex h-2 w-2">
@@ -69,7 +63,7 @@ export default function Header() {
         {/* Auth State Management */}
         <div className="pl-1 sm:pl-2 min-w-[40px] flex justify-center">
           {isPending ? (
-            <div className="h-9 w-9 rounded-full bg-zinc-100 dark:bg-zinc-900 animate-pulse flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
+            <div className="h-9 w-9 rounded-full  animate-pulse flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
               <Loader2 className="w-4 h-4 text-zinc-400 animate-spin" />
             </div>
           ) : (
