@@ -39,5 +39,5 @@ export const config = {
    * 4. Static files (favicon, svg, jpg, etc.)
    */
 //   matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
-matcher:["/account/:path*"]
+matcher:["/account/:path*","/my-posts","/saved-posts"]
 };
