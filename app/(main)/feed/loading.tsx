@@ -1,4 +1,4 @@
-import PostCardSkeleton from "@/components/feed/PostCardSkeleton"
+import PostCardSkeleton from "@/components/pages/feed/PostCardSkeleton"
 
 export default function loading(){
     return <div>

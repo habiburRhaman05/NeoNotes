@@ -22,7 +22,7 @@ export function AppSidebar() {
     { name: "Feed", icon: LayoutDashboard, href: "/feed" },
     { name: "Profile", icon: User2, href: "/account/profile" },
     { name: "My Posts", icon: FileText, href: "/my-posts" },
-    { name: "Reading List", icon: Bookmark, href: "/saved-posts" },
+    { name: "Reading List", icon: Bookmark, href: "/reading-list" },
   ];
 
   return (

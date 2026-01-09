@@ -10,11 +10,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body
-       
-      >
-       <main>
+
+       <div>
          <Header />
         {/* ২. হেডারের নিচের অংশ */}
         <div className="flex flex-1">
@@ -25,12 +22,9 @@ export default function RootLayout({
           <div className="flex-1 bg-[#fbfbfb] dark:bg-zinc-950 px-4 py-6">
             {children}
           </div>
-               
+            </div>   
        
       </div>
-       </main>
- 
-      </body>
-    </html>
+      
   )
 }

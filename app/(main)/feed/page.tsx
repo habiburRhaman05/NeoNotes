@@ -1,5 +1,6 @@
-import LinkTab from "@/components/feed/LinkTab";
-import PostList from "@/components/feed/PostList";
+
+import LinkTab from "@/components/pages/feed/LinkTab";
+import PostList from "@/components/pages/feed/PostList";
 import Link from "next/link";
 
 

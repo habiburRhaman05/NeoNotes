@@ -1,5 +1,5 @@
-import FeedFilter from '@/components/feed/FeedFilter'
-import FeedRightSidebar from '@/components/feed/FeedRightContent'
+
+import FeedRightSidebar from '@/components/pages/feed/FeedRightContent'
 import React, { ReactNode } from 'react'
 
 const FeedLayout = ({children}:{children:ReactNode}) => {
