@@ -8,7 +8,7 @@ const publicRoutes = ['/login', '/signup', '/'];
 
 export default async function middleware(request: NextRequest) {
 // Better-Auth এর ডিফল্ট সেশন কুকি চেক
-  const sessionToken = request.cookies.get("better-auth.session_token") || 
+  const sessionToken = request.cookies.get("custom_session_id") || 
                        request.cookies.get("__better_auth_session"); // Production এ এই নাম হতে পারে
 console.log(sessionToken);
 

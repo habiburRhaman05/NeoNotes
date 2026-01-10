@@ -51,7 +51,7 @@ export default function SignInForm() {
       fetchOptions: {
         onSuccess: () => {
           toast.success("Login Successful!");
-          router.push("/");
+          router.push("/feed");
         },
         onError: (ctx) => {
           toast.error(ctx.error.message || "Login failed");
