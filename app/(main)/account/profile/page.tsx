@@ -7,7 +7,7 @@ import { authServices } from '@/services/auth/authService';
 
 export default async function ProfilePage() {
   const user = await authServices.getUserSession();
-console.log(user);
+
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 transition-colors duration-300">

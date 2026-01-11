@@ -1,22 +1,26 @@
-import { httpRequest } from "@/config/axios/axios";
-import { ProfileData } from "./type";
 import { headers } from "next/headers";
 
-
-
 async function getUserSession() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/get-session`, {
-    headers: Object.fromEntries(await headers()), // এটি কুকিগুলো এক্সপ্রেস সার্ভারে পাঠাবে
-    cache: "no-store",
-  });
+  try {
+    const headerList = await headers();
+    const cookie = headerList.get("cookie"); // কুকিটি আলাদাভাবে নিন
 
-  if (!response.ok) return null;
-  const data=await  response.json();
- if(data){
-   return data.user
- }
- return null
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/get-session`, {
+      method: "GET",
+      headers: {
+        "Cookie": cookie || "", // সার্ভার টু সার্ভার কুকি পাসিং
+        "Accept": "application/json",
+      },
+      cache: "no-store",
+    });
 
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.user;
+  } catch (error) {
+    console.error("Session Fetch Error:", error);
+    return null;
+  }
 }
 
 
