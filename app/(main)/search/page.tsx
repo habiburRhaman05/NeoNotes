@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { feedServices } from "@/services/feed/feedServices";
-import PostList from '@/components/feed/PostList';
+import PostList from '@/components/pages/feed/PostList';
+
 
 // Next.js অটোমেটিক searchParams প্রপটি সার্ভার কম্পোনেন্টে পাস করে
 const Search = async ({ 
