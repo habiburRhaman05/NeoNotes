@@ -25,5 +25,5 @@ export default async function middleware(request: NextRequest) {
 
 export const config = {
 
-matcher:["/account/:path*","/saved-posts"]
+matcher:["/account/:path*","/saved-posts","/my-posts/:path*"]
 };

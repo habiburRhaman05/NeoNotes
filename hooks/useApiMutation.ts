@@ -8,7 +8,7 @@ type MutationMethod = "POST" | "PUT" | "PATCH" | "DELETE";
 interface MutationConfig {
   method: MutationMethod;
   endpoint: string;
-  invalidateKeys?: string[][];
+  invalidateKeys?: string[];
   successMessage?: string;
 }
 
@@ -28,13 +28,15 @@ export function useApiMutation<TData = any, TVariables = any, TContext = unknown
         data: variables,
       });
       return response.data;
+      //  await new Promise((reslove)=> setTimeout(reslove,3000))
+      //  return true
     },
     onSuccess: (data:any, variables, context) => {
       toast.success(data.message || "Action completed successfully");
 
       if (invalidateKeys) {
         invalidateKeys.forEach((key) => {
-          queryClient.invalidateQueries({ queryKey: key });
+          queryClient.invalidateQueries({ queryKey:[key] });
         });
       }
 
