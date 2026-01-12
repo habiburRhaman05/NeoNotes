@@ -7,8 +7,7 @@ import {
   GlobalDragHandle,
   HighlightExtension,
   HorizontalRule,
-  MarkdownExtension,
-  Placeholder,
+Placeholder,
   StarterKit,
   TaskItem,
   TaskList,
@@ -19,9 +18,9 @@ import {
   Twitter,
   UpdatedImage,
   Youtube,
-  Mathematics
-} from 'novel/extensions'
-import { UploadImagesPlugin } from 'novel/plugins'
+  Mathematics,
+  UploadImagesPlugin
+} from 'novel'
 
 import { cx } from 'class-variance-authority'
 import { common, createLowlight } from 'lowlight'
@@ -167,7 +166,7 @@ export const defaultExtensions = [
   mathematics,
   characterCount,
   TiptapUnderline,
-  MarkdownExtension,
+  // MarkdownExtension,
   HighlightExtension,
   TextStyle,
   Color,

@@ -58,7 +58,7 @@ export default function PostCard({ post, index }: { post: any, index: number }) 
       </div>
 
       {/* ২. মেইন কন্টেন্ট এরিয়া */}
-    <Link href={`/feed/${post.id}`}>
+    <Link href={`/feed/${post.slug}`}>
       <div className="flex justify-between gap-5 md:gap-8">
         <div className="flex-1 space-y-1.5">
           <h2 className="text-[17px] md:text-[20px] font-black text-zinc-900 dark:text-zinc-100 leading-snug tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">

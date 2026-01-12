@@ -2,174 +2,175 @@
 
 import React, { useState, useEffect } from 'react';
 import { 
-  Plus, 
-  X, 
-  Hash, 
-  Link2, 
-  CheckCircle2,
-  BookOpen,
-  Info
+  Plus, X, Hash, Link2, CheckCircle2, 
+  BookOpen, Info, ImagePlus, Loader2, CloudUpload,
+  ChevronRight, Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-
-const CreatePostForm = () => {
-  const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
-  const [content, setContent] = useState("");
+import { cn } from "@/lib/utils";
+import Editor from '@/components/editor/editor';
+// Define the type for the props
+interface CreatePostFormProps {
+  formData: {
+    title: string;
+    slug: string;
+    content: any;
+    tags: string[];
+    thumbnail: string | null;
+  };
+  defaultContent:any
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
+}
+const CreatePostForm = ({ formData, setFormData,defaultContent }: CreatePostFormProps) => {
   const [currentTag, setCurrentTag] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
+  const [showRules, setShowRules] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  // const [htmlContent,setHtmlContent] = useState("")
 
-  // 1. Leave Page Guard
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (title || content || tags.length > 0) {
-        e.preventDefault();
-        e.returnValue = "";
-      }
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [title, content, tags]);
+  const { title, slug, tags, thumbnail } = formData;
+ 
 
-  // 2. Handlers
+  // update content
+
+
+  // Sync state helpers
+  const updateField = (field: string, value: any) => {
+
+    
+    setFormData((prev: any) => ({ ...prev, [field]: value }));
+  };
+
+  const handleThumbnailUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    // Simulate upload delay
+    const promise = fetch(process.env.NEXT_PUBLIC_API_URL+"/api/v1/post/upload-thumbnail", {
+    method: "POST",
+    headers: {
+      "content-type": file?.type || "application/octet-stream",
+      "x-vercel-filename": file?.name || "image.png",
+    },
+    body: file,
+  });
+  console.log(promise);
+  
+  };
+
+  const autoGenerateSlug = (val: string) => {
+    updateField('title', val);
+    const generatedSlug = val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    updateField('slug', generatedSlug);
+  };
+
   const handleAddTag = () => {
     if (currentTag && !tags.includes(currentTag)) {
-      setTags([...tags, currentTag.toLowerCase()]);
+      updateField('tags', [...tags, currentTag.toLowerCase()]);
       setCurrentTag("");
     }
   };
 
-  const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter(t => t !== tagToRemove));
-  };
-
-  const autoGenerateSlug = (val: string) => {
-    setTitle(val);
-    setSlug(val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''));
-  };
+  const removeThumbnail = ()=>{}
+  const removeTag = (tag:string)=>{}
 
   return (
-    <div className=" bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans selection:bg-zinc-100/50">
+    <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans selection:bg-zinc-100/50 relative overflow-x-hidden">
       
-      <main className="max-w-6xl mx-auto pt-16 pb-32 px-6 flex flex-col lg:flex-row gap-16">
-        
-        {/* LEFT COLUMN: WRITING AREA */}
-        <div className="flex-1 max-w-3xl">
-          {/* Title Input */}
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => autoGenerateSlug(e.target.value)}
-            placeholder="Article Title..."
-            className="w-full text-5xl font-bold bg-transparent border-none outline-none placeholder:text-zinc-200 dark:placeholder:text-zinc-800 mb-6 tracking-tight"
-          />
+     
 
-          {/* Slug & Tags row */}
-          <div className="flex flex-col gap-6 mb-12">
-            <div className="flex items-center gap-2 group border-b border-zinc-100 dark:border-zinc-900 pb-2">
+      <main className="max-w-4xl mx-auto pt-8 pb-32 px-6 transition-all duration-500">
+   
+        <div className={cn(
+          "transition-all duration-500 flex gap-12",
+          showRules ? "mr-72 opacity-50 pointer-events-none scale-95 blur-[2px]" : "mr-0"
+        )}>
+          {/* WRITING AREA */}
+          <div className="flex-1 max-w-3xl mx-auto">
+            {/* THUMBNAIL UPLOAD UI */}
+            <div className="mb-10 group">
+              {!thumbnail ? (
+                <label className={`
+                  relative flex flex-col items-center justify-center w-full h-48 
+                  border-2 border-dashed rounded-[2rem] transition-all cursor-pointer
+                  ${uploading ? 'bg-zinc-50 border-zinc-200' : 'bg-zinc-50/50 border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50'}
+                  dark:bg-zinc-900/20 dark:border-zinc-800 dark:hover:border-zinc-700
+                `}>
+                  <div className="flex flex-col items-center justify-center">
+                    {uploading ? (
+                      <Loader2 className="w-8 h-8 text-zinc-400 animate-spin" />
+                    ) : (
+                      <div className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-600 transition-colors">
+                        <ImagePlus className="w-5 h-5" />
+                        <span className="text-sm font-bold">Add Cover Image</span>
+                      </div>
+                    )}
+                  </div>
+                  <input type="file" className="hidden" onChange={handleThumbnailUpload} disabled={uploading} accept="image/*" />
+                </label>
+              ) : (
+                <div className="relative w-full h-64 rounded-[2rem] overflow-hidden group">
+                  <img src={thumbnail} alt="Thumbnail" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <Button variant="destructive" size="sm" onClick={removeThumbnail} className="rounded-full">
+                      <X className="w-4 h-4 mr-2" /> Remove
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Title & Slug */}
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => autoGenerateSlug(e.target.value)}
+              placeholder="Article Title..."
+              className="w-full text-5xl font-bold bg-transparent border-none outline-none placeholder:text-zinc-100 dark:placeholder:text-zinc-800 mb-4 tracking-tight"
+            />
+
+            <div className="flex flex-col gap-6 mb-12">
+                   <div className="flex items-center gap-2 group border-b border-zinc-100 dark:border-zinc-900 pb-2">
               <Link2 className="h-4 w-4 text-zinc-300" />
-              <span className="text-sm text-zinc-400 font-mono">yoursite.com/</span>
+              <span className="text-sm text-zinc-400 font-mono">yoursite.com/feed/</span>
               <input 
                 value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-                className="flex-1 bg-transparent border-none outline-none text-sm font-mono text-zinc-500 focus:text-zinc-900"
+                onChange={(e) => updateField("slug",e.target.value) }
+                className="flex-1 bg-transparent border-none outline-none text-sm font-mono text-zinc-500 dark:text-zinc-400 focus:text-zinc-900"
                 placeholder="url-path"
               />
             </div>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="flex-1 relative">
-                  <Hash className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-300" />
+              {/* Tags */}
+              <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex flex-wrap gap-2">
+                  {tags.map(tag => (
+                    <span key={tag} className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 text-xs font-medium">
+                      #{tag}
+                      <button onClick={() => removeTag(tag)}><X className="h-3 w-3" /></button>
+                    </span>
+                  ))}
+                </div>
+                <div className="relative flex items-center">
+                  <Hash className="absolute left-0 h-3 w-3 text-zinc-300" />
                   <input 
                     value={currentTag}
                     onChange={(e) => setCurrentTag(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleAddTag()}
-                    className="w-full bg-transparent border-none outline-none pl-6 text-sm py-2 focus:ring-0"
-                    placeholder="Add topics..."
+                    className="bg-transparent border-none outline-none pl-5 text-xs w-24 focus:w-40 transition-all"
+                    placeholder="Add tag..."
                   />
                 </div>
-                <Button 
-                  onClick={handleAddTag}
-                  variant="outline" 
-                  size="sm" 
-                  className="rounded-full border-zinc-200 text-xs font-bold hover:bg-zinc-50 transition-all"
-                >
-                  <Plus className="h-3 w-3 mr-1" /> Add Tag
-                </Button>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {tags.map(tag => (
-                  <span key={tag} className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 text-xs font-medium group transition-all hover:bg-zinc-200">
-                    #{tag}
-                    <button onClick={() => removeTag(tag)} className="opacity-30 hover:opacity-100">
-                      <X className="h-3 w-3" />
-                    </button>
-                  </span>
-                ))}
               </div>
             </div>
-          </div>
 
-          {/* Content Area */}
-          <div className="relative">
-            <Textarea 
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="The floor is yours..."
-              className="w-full min-h-[600px] bg-transparent border-none outline-none p-0 focus-visible:ring-0 text-xl leading-relaxed placeholder:text-zinc-200 resize-none shadow-none"
-            />
+               <Editor initialValue={defaultContent} onChange={(content)=>{
+updateField("content",content)
+               }} />
+                
           </div>
         </div>
 
-        {/* RIGHT COLUMN: WRITER RULES (Sidebar) */}
-        <aside className="w-full lg:w-60 space-y-8 pt-4">
-            <div className="sticky top-24 p-8 rounded-[2rem] bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800">
-                <div className="flex items-center gap-3 mb-6 text-zinc-400">
-                    <BookOpen className="h-5 w-5" />
-                    <h3 className="text-xs font-bold uppercase tracking-widest">Writing Rules</h3>
-                </div>
-
-                <ul className="space-y-6">
-                    <li className="space-y-2">
-                        <div className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                            <h4 className="text-sm font-bold">Be Authentic</h4>
-                        </div>
-                        <p className="text-[13px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                            Write with your own voice. Avoid overused buzzwords and focus on unique perspectives.
-                        </p>
-                    </li>
-
-                    <li className="space-y-2">
-                        <div className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                            <h4 className="text-sm font-bold">Readability First</h4>
-                        </div>
-                        <p className="text-[13px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                            Use short paragraphs and clear headings. Your story should be scannable and easy to digest.
-                        </p>
-                    </li>
-
-                    <li className="space-y-2">
-                        <div className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                            <h4 className="text-sm font-bold">Check Your Sources</h4>
-                        </div>
-                        <p className="text-[13px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                            Ensure all facts and quotes are accurate. Linking to original sources builds trust with readers.
-                        </p>
-                    </li>
-                </ul>
-
-                <div className="mt-8 pt-6 border-t border-zinc-200/50 dark:border-zinc-800 flex items-center gap-3 text-zinc-400">
-                    <Info className="h-4 w-4" />
-                    <span className="text-[11px] italic">Remember: Quality over Quantity.</span>
-                </div>
-            </div>
-        </aside>
 
       </main>
     </div>

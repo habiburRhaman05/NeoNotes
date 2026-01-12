@@ -1,4 +1,6 @@
-import { createImageUpload } from "novel/plugins";
+
+// import { createImageUpload } from "novel/plugins";
+import { createImageUpload } from "novel";
 import { toast } from "sonner";
 
 const onUpload = (file: File) => {
@@ -10,6 +12,15 @@ const onUpload = (file: File) => {
     },
     body: file,
   });
+  // custom backend
+  //  const promise = fetch(process.env.NEXT_PUBLIC_API_URL+"/api/v1/post/upload-thumbnail", {
+  //   method: "POST",
+  //   headers: {
+  //     "content-type": file?.type || "application/octet-stream",
+  //     "x-vercel-filename": file?.name || "image.png",
+  //   },
+  //   body: file,
+  // });
 
   return new Promise((resolve, reject) => {
     toast.promise(

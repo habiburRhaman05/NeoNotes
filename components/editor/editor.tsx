@@ -10,11 +10,14 @@ import {
   EditorContent,
   type EditorInstance,
   EditorRoot,
-  type JSONContent
+  handleCommandNavigation,
+  handleImageDrop,
+  handleImagePaste,
+  ImageResizer,
+  type JSONContent,
+  Placeholder
 } from 'novel'
 
-import { ImageResizer, handleCommandNavigation } from 'novel/extensions'
-import { handleImageDrop, handleImagePaste } from 'novel/plugins'
 
 import {
   slashCommand,
@@ -33,7 +36,9 @@ import { Separator } from '@/components/ui/separator'
 
 const hljs = require('highlight.js')
 
-const extensions = [...defaultExtensions, slashCommand]
+const extensions = [...defaultExtensions, slashCommand, Placeholder.configure({
+      placeholder: 'Write something …',
+    }),]
 
 export const defaultEditorContent = {
   type: 'doc',
@@ -73,7 +78,7 @@ export default function Editor({ initialValue, onChange }: EditorProps) {
         <EditorContent
           immediatelyRender={false}
           initialContent={initialValue}
-          extensions={extensions}
+          extensions={extensions as any}
           className='min-h-96 rounded-xl border p-4'
           editorProps={{
             handleDOMEvents: {

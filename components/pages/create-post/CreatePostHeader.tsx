@@ -25,7 +25,7 @@ type Props = {
   handleSaveDraft: (data: any) => Promise<void>
   handleSchedule: (data: any) => Promise<void>
   handleReset: () => void
-  togglePreview: () => void
+  togglePreview: (value:boolean) => void
   loading: {
     publish: boolean
     draft: boolean
@@ -128,7 +128,7 @@ const CreatePostHeader = ({
             <Button 
               variant="outline" 
               size="sm" 
-              onClick={togglePreview} 
+              onClick={()=> togglePreview(true)} 
               disabled={loading.publish}
               className="hover:bg-secondary/50 transition-all border-border/60"
             >

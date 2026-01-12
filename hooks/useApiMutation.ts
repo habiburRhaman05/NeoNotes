@@ -21,15 +21,18 @@ export function useApiMutation<TData = any, TVariables = any, TContext = unknown
   const { method, endpoint, invalidateKeys, successMessage } = config;
 
   return useMutation<TData, Error, TVariables, TContext>({
-    mutationFn: async (variables) => {
-      const response = await httpRequest({
-        url: endpoint,
-        method,
-        data: variables,
-      });
-      return response.data;
-      //  await new Promise((reslove)=> setTimeout(reslove,3000))
-      //  return true
+    mutationFn: async (payload) => {
+      // const response = await httpRequest({
+      //   url: endpoint,
+      //   method,
+      //   data: payload,
+      // });
+      // return response.data;
+      
+       await new Promise((reslove)=> setTimeout(reslove,3000))
+       console.log(payload);
+       
+       return true
     },
     onSuccess: (data:any, variables, context) => {
       toast.success(data.message || "Action completed successfully");

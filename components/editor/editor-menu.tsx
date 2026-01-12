@@ -1,5 +1,4 @@
-import { EditorBubble, useEditor } from 'novel'
-import { removeAIHighlight } from 'novel/extensions'
+import { EditorBubble, removeAIHighlight, useEditor } from 'novel'
 
 import { type ReactNode, useEffect } from 'react'
 

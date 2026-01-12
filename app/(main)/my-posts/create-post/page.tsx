@@ -1,11 +1,32 @@
 "use client"
 import CreatePostForm from '@/components/pages/create-post/CreatePostForm'
 import CreatePostHeader from '@/components/pages/create-post/CreatePostHeader'
+import PreviewModal from '@/components/pages/create-post/PreviewModal'
 import { useApiMutation } from '@/hooks/useApiMutation'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
-
+export const defaultValue = {
+  type: 'doc',
+  content: [
+    {
+      type: 'paragraph',
+      content: [
+     
+      ]
+    }
+  ]
+}
 const CreateNewPost = () => {
+
+  const [openPreviewModal,setOpenPreviewModal] = useState(false)
+
+  const [formData, setFormData] = useState({
+    title: "",
+    slug: "",
+    content: "",
+    tags: [],
+    thumbnail: null,
+  });
 
   const publishMutation = useApiMutation({
     endpoint:"/api/v1/post",
@@ -41,32 +62,59 @@ const CreateNewPost = () => {
 }
 
   const handlePublish = async(postData:unknown)=>{
-  
-    await publishMutation.mutateAsync(dummyPostData)
+  // add data empty validation with error message
+    await publishMutation.mutateAsync(formData)
+    setFormData({
+       title: "",
+    slug: "",
+    content: "",
+    tags: [],
+    thumbnail: null,
+    })
   
   }
   const handleSaveDraft = async(postData:unknown)=>{
+  // add data empty validation with error message
   
     await draftMutation.mutateAsync(postData)
     
 
   }
   const handleSchedule = async(postData:unknown)=>{
+  // add data empty validation with error message
   
     await scheduleMutation.mutateAsync(postData)
   
   }
   const handleReset = async()=>{
 
-   
+     setFormData({
+       title: "",
+    slug: "",
+    content: "",
+    tags: [],
+    thumbnail: null,
+    })
 
   }
-  const togglePreview = async()=>{
-
+  const togglePreview = async(value:boolean)=>{
+setOpenPreviewModal(value)
   }
 
   return (
     <div className=' max-w-6xl mx-auto w-full'>
+
+{/* preview modal */}
+
+
+  <PreviewModal
+data={formData}
+onClose={()=>{
+  setOpenPreviewModal(false)
+}}
+isOpen={openPreviewModal}
+/>
+
       {/* page Top Bar */}
       <CreatePostHeader 
      loading={
@@ -82,8 +130,10 @@ const CreateNewPost = () => {
       handleReset={handleReset}
       togglePreview={togglePreview}
       />
-     {/* write blog-post form */} 
-     <CreatePostForm/>
+
+
+    {/* Pass state and setter to form */}
+      <CreatePostForm defaultContent={defaultValue} formData={formData} setFormData={setFormData} />
     </div>
   )
 }
