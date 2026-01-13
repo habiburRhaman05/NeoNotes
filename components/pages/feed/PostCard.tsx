@@ -64,9 +64,7 @@ export default function PostCard({ post, index }: { post: any, index: number }) 
           <h2 className="text-[17px] md:text-[20px] font-black text-zinc-900 dark:text-zinc-100 leading-snug tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
             {post?.title}
           </h2>
-          <p className="text-zinc-500 dark:text-zinc-400 text-[13px] md:text-[14px] line-clamp-2 leading-relaxed font-normal italic">
-            {post.content}
-          </p>
+          
         </div>
 
         {post.thumbnail && (

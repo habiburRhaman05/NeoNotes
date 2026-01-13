@@ -17,7 +17,6 @@ const getAllFeed = async ():Promise<Feed [] | any> =>{
     return data 
   } catch (error) {
     console.log(error);
-    
   }
   return []
 }
@@ -42,9 +41,9 @@ const getSearchResult = async (query:string):Promise<Feed [] | any> =>{
   return []
 }
 
-const getFeedDetailsById = async (id:number):Promise<Feed | any> =>{
+const getFeedDetailsBySlug = async (slug:string):Promise<Feed | any> =>{
   try {
-     const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/post/${id}`,{
+     const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/post/${slug}`,{
      
      })
    
@@ -61,4 +60,4 @@ const getFeedDetailsById = async (id:number):Promise<Feed | any> =>{
 
 
 
-export const feedServices = {getAllFeed,getFeedDetailsById,getSearchResult}
+export const feedServices = {getAllFeed,getFeedDetailsBySlug,getSearchResult}

@@ -39,7 +39,7 @@ const PreviewModal = ({ isOpen, onClose, data }: PreviewModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="xl:min-w-[1000px] h-[90vh] p-0 overflow-scroll bg-zinc-50/50 dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800">
+      <DialogContent className="xl:min-w-[1000px] h-[90vh] p-0 overflow-scroll bg-zinc-50 dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800">
         
         {/* Top bar for Modal Control */}
         <div className="flex items-center justify-between px-6 py-3 border-b bg-white dark:bg-zinc-900 z-10">

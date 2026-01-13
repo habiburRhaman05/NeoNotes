@@ -3,6 +3,7 @@ import CreatePostForm from '@/components/pages/create-post/CreatePostForm'
 import CreatePostHeader from '@/components/pages/create-post/CreatePostHeader'
 import PreviewModal from '@/components/pages/create-post/PreviewModal'
 import { useApiMutation } from '@/hooks/useApiMutation'
+import { authClient } from '@/lib/auth-client'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
 export const defaultValue = {
@@ -18,6 +19,7 @@ export const defaultValue = {
 }
 const CreateNewPost = () => {
 
+  const {data:session} = authClient.useSession()
   const [openPreviewModal,setOpenPreviewModal] = useState(false)
 
   const [formData, setFormData] = useState({
@@ -62,6 +64,11 @@ const CreateNewPost = () => {
 }
 
   const handlePublish = async(postData:unknown)=>{
+    const postPayload = {
+      ...formData,
+      isFeatured:session?.user,
+      authorId:session?.user.id
+    }
   // add data empty validation with error message
     await publishMutation.mutateAsync(formData)
     setFormData({

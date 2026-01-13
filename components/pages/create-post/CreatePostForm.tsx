@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from "@/lib/utils";
 import Editor from '@/components/editor/editor';
+import { useApiMutation } from '@/hooks/useApiMutation';
 // Define the type for the props
 interface CreatePostFormProps {
   formData: {
@@ -29,7 +30,12 @@ const CreatePostForm = ({ formData, setFormData,defaultContent }: CreatePostForm
   // const [htmlContent,setHtmlContent] = useState("")
 
   const { title, slug, tags, thumbnail } = formData;
- 
+   const thumbanilUploadMutation = useApiMutation({
+     endpoint:"/api/v1/post/upload-thumbnail",
+     method:"POST",
+     invalidateKeys:["fetch-user-posts"],
+     // successMessage:"Your Post Created SuccessFully"
+   });
 
   // update content
 
@@ -41,21 +47,15 @@ const CreatePostForm = ({ formData, setFormData,defaultContent }: CreatePostForm
     setFormData((prev: any) => ({ ...prev, [field]: value }));
   };
 
-  const handleThumbnailUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleThumbnailUpload = async(e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setUploading(true);
-    // Simulate upload delay
-    const promise = fetch(process.env.NEXT_PUBLIC_API_URL+"/api/v1/post/upload-thumbnail", {
-    method: "POST",
-    headers: {
-      "content-type": file?.type || "application/octet-stream",
-      "x-vercel-filename": file?.name || "image.png",
-    },
-    body: file,
-  });
-  console.log(promise);
-  
+   
+   
+    
+    const result = await thumbanilUploadMutation.mutateAsync({file}) 
+
+    updateField("thumbnail",result.data.url)
   };
 
   const autoGenerateSlug = (val: string) => {
@@ -71,7 +71,9 @@ const CreatePostForm = ({ formData, setFormData,defaultContent }: CreatePostForm
     }
   };
 
-  const removeThumbnail = ()=>{}
+  const removeThumbnail = ()=>{
+    updateField("thumbnail","")
+  }
   const removeTag = (tag:string)=>{}
 
   return (
@@ -93,11 +95,11 @@ const CreatePostForm = ({ formData, setFormData,defaultContent }: CreatePostForm
                 <label className={`
                   relative flex flex-col items-center justify-center w-full h-48 
                   border-2 border-dashed rounded-[2rem] transition-all cursor-pointer
-                  ${uploading ? 'bg-zinc-50 border-zinc-200' : 'bg-zinc-50/50 border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50'}
+                  ${thumbanilUploadMutation.isPending ? 'bg-zinc-50 border-zinc-200' : 'bg-zinc-50/50 border-zinc-100 hover:border-zinc-300 hover:bg-zinc-50'}
                   dark:bg-zinc-900/20 dark:border-zinc-800 dark:hover:border-zinc-700
                 `}>
                   <div className="flex flex-col items-center justify-center">
-                    {uploading ? (
+                    {thumbanilUploadMutation.isPending ? (
                       <Loader2 className="w-8 h-8 text-zinc-400 animate-spin" />
                     ) : (
                       <div className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-600 transition-colors">
