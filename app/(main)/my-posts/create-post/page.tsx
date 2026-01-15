@@ -66,11 +66,12 @@ const CreateNewPost = () => {
   const handlePublish = async(postData:unknown)=>{
     const postPayload = {
       ...formData,
-      isFeatured:session?.user,
+      isFeatured:false,
+      views:0,
       authorId:session?.user.id
     }
   // add data empty validation with error message
-    await publishMutation.mutateAsync(formData)
+    await publishMutation.mutateAsync(postPayload)
     setFormData({
        title: "",
     slug: "",
