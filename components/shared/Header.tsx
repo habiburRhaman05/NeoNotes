@@ -18,7 +18,7 @@ export default function Header() {
   } = authClient.useSession();
 
   return (
-    <header className="w-full h-16 border-b border-zinc-200 dark:border-zinc-800 bg-[#fbfbfb]/80 dark:bg-zinc-950/80 backdrop-blur-md px-4 flex items-center justify-between sticky top-0 z-50">
+    <header className="w-full h-16 border-b border-zinc-200 dark:border-zinc-800 bg-[#fbfbfb]/80 dark:bg-zinc-800/50 backdrop-blur-md px-4 flex items-center justify-between sticky top-0 z-50">
       
       {/* Left Side: Sidebar Toggle & Logo */}
       <div className="flex items-center gap-4">

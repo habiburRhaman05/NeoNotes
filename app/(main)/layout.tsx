@@ -1,4 +1,4 @@
-import FeedRightSidebar from "@/components/feed/FeedRightContent"
+
 import Header from "@/components/shared/Header"
 import { AppSidebar } from "@/components/shared/sidebar"
 

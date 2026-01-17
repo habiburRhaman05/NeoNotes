@@ -1,14 +1,15 @@
-import DashboardOverview from "@/components/pages/admin-dashboard/overview"
+import React from 'react'
 
-export default function AdminDashboardLayout({children,posts,users}:{
+const layout = ({children,users}:{
     children:React.ReactNode
-    posts:React.ReactNode
     users:React.ReactNode
-}){
-    return <div>
-       {children}
+}) => {
+  return (
+    <div>
+        {/* {children} */}
         {users}
-        {posts}
-  
     </div>
+  )
 }
+
+export default layout
